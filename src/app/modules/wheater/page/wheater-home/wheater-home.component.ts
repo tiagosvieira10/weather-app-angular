@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
 import { weatherDatas } from 'src/app/models/interfaces/WeatherDatas';
 import { Subject, takeUntil } from 'rxjs';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-wheater-home',
@@ -11,7 +12,9 @@ import { Subject, takeUntil } from 'rxjs';
 export class WheaterHomeComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject();
   initialCityName = 'São Paulo';
-  weatherDatas!: weatherDatas
+  weatherDatas!: weatherDatas;
+  searchIcon = faMagnifyingGlass;
+
 
   constructor(private weatherService: WeatherService) {}
  
@@ -31,6 +34,12 @@ export class WheaterHomeComponent implements OnInit, OnDestroy {
       },
       error: (error) => console.log(error),
     });
+  }
+
+  onSubmit(): void {
+    this.getWeatherDatas(this.initialCityName);
+    console.log('chamou')
+    this.initialCityName = '';
   }
 
   ngOnDestroy(): void {
